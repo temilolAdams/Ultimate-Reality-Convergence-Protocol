@@ -1,30 +1,20 @@
+;; Fundamental Truth Discovery Contract
 
-;; title: fundamental-truth-discovery
-;; version:
-;; summary:
-;; description:
+(define-map truths
+  { id: uint }
+  { statement: (string-ascii 128), confidence: uint }
+)
 
-;; traits
-;;
+(define-data-var next-id uint u0)
 
-;; token definitions
-;;
+(define-public (propose-truth (statement (string-ascii 128)) (confidence uint))
+  (let ((id (var-get next-id)))
+    (var-set next-id (+ id u1))
+    (ok (map-set truths { id: id } { statement: statement, confidence: confidence }))
+  )
+)
 
-;; constants
-;;
-
-;; data vars
-;;
-
-;; data maps
-;;
-
-;; public functions
-;;
-
-;; read only functions
-;;
-
-;; private functions
-;;
+(define-read-only (get-truth (id uint))
+  (map-get? truths { id: id })
+)
 
